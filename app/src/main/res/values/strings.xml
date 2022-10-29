@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PruebaAndroidTL</string>
+
+    <string name="my_address">My address</string>
+    <string name="target_location">Selecciona una ubicacion en el mapa</string>
+    <string name="label_from">Direccion de origen: %s1</string>
+    <string name="label_to">Direccion de destino: %s1</string>
+    <string name="see_route_info">Ver Tiempo y distancia de recorrido</string>
+    <string name="get_route">Calcula una ruta</string>
+    <string name="get_movie">Consulta una pelicula</string>
+    <string name="movie_title">MovieTitle</string>
+    <string name="overview">Overview</string>
+    <string name="label_distance">Distancia: %s1 Km</string>
+    <string name="label_time">Tiempo recorrido en auto: %s1 min</string>
+    <string name="distance_hint">Distance</string>
+    <string name="time_hint">Time</string>
+
+</resources>
