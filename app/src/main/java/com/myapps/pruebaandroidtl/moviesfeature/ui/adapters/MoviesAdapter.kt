@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.myapps.pruebaandroidtl.databinding.MovieItemLayoutBinding
 import com.myapps.pruebaandroidtl.moviesfeature.domain.models.MovieModel
 
-class MoviesAdapter(private var setOnItemClicked: (movie: MovieModel) -> Unit): PagingDataAdapter<MovieModel,MoviesAdapter.MoviesViewHolder>(MovieDifferCallBack()) {
+class MoviesAdapter(private var setOnItemClicked: (movie: MovieModel) -> Unit): ListAdapter<MovieModel,MoviesAdapter.MoviesViewHolder>(MovieDifferCallBack()) {
 
     class MoviesViewHolder(val binding: MovieItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
