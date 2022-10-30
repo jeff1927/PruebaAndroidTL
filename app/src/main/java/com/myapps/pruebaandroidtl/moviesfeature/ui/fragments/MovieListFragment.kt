@@ -40,29 +40,24 @@ class MovieListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.rvMovies.apply {
+        binding.rvMovies.apply { 
             layoutManager = LinearLayoutManager(requireContext())
             adapter = MoviesAdapter(setOnItemClicked = {
-                findNavController().navigate(
-                    MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(
-                        it
-                    )
-                )
+                findNavController().navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(it))
             })
         }
     }
-
     private fun setupObserver() {
         viewModel.moviesList.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is Resource.Success -> {
+                is Resource.Success-> {
                     binding.rvMovies.adapter?.let {
                         response.data?.let { moviesList ->
                             (it as MoviesAdapter).submitList(moviesList)
                         }
                     }
                 }
-                is Resource.Error -> {
+                is Resource.Error-> {
                     response.error?.let { message ->
                         Toast.makeText(
                             requireContext(),
