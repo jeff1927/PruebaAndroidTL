@@ -2,7 +2,7 @@ package com.myapps.pruebaandroidtl.moviesfeature.data.api
 
 import com.myapps.pruebaandroidtl.mapsfeature.data.mapsdto.RouteDto
 import com.myapps.pruebaandroidtl.moviesfeature.data.dto.PopularMoviesDto
-import com.myapps.pruebaandroidtl.utils.constants.INITIAL_PAGE
+import com.myapps.pruebaandroidtl.utils.constants.ONE_INT
 import com.myapps.pruebaandroidtl.utils.constants.POPULAR_MOVIES_ENDPOINT
 import com.myapps.pruebaandroidtl.utils.constants.TMDB_API_KEY
 import retrofit2.Response
@@ -17,7 +17,7 @@ interface TheMovieDataBaseApi {
         @Query("api_key")
         api_key: String = TMDB_API_KEY,
         @Query("page")
-        page: Int = INITIAL_PAGE
+        page: Int = ONE_INT
     ) : Response<PopularMoviesDto>
 
     @GET(POPULAR_MOVIES_ENDPOINT)
@@ -25,7 +25,7 @@ interface TheMovieDataBaseApi {
         @Query("api_key")
         api_key: String = TMDB_API_KEY,
         @Query("page")
-        page: Int = INITIAL_PAGE
+        page: Int = ONE_INT
     ) : PopularMoviesDto
 
     @GET

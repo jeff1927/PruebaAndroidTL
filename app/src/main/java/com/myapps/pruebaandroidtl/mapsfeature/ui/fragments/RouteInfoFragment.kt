@@ -35,9 +35,9 @@ class RouteInfoFragment : Fragment() {
     private fun setupView() {
         with(binding){
             safeArgs?.let {
-                val distance = String.format("%.1f",it.time?.get(0)?.div(1000))
+                val distance = String.format("%.1f",it.routeInfo?.get(0)?.div(1000))
                 tvDistance.text = getString(R.string.label_distance, distance.toString())
-                val time = it.time?.get(1)?.div(60)
+                val time = it.routeInfo?.get(1)?.div(60)
                 tvTime.text = getString(R.string.label_time, String.format("%.1f", time))
             }
 

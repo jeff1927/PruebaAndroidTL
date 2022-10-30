@@ -11,8 +11,11 @@
     <string name="movie_title">MovieTitle</string>
     <string name="overview">Overview</string>
     <string name="label_distance">Distancia: %s1 Km</string>
-    <string name="label_time">Tiempo recorrido en auto: %s1 min</string>
+    <string name="label_time">Tiempo del recorrido en auto: %s1 min</string>
     <string name="distance_hint">Distance</string>
     <string name="time_hint">Time</string>
+    <string name="route_not_found">No se ha encontrado la ruta</string>
+    <string name="wrong_location">No haz ingresado una ubicacion valida</string>
+    <string name="go_to_settings">Ve a ajustes y acepta los permisos</string>
 
 </resources>
