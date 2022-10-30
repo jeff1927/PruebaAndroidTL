@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.myapps.pruebaandroidtl.moviesfeature.data.datasource.MoviesDataSource
 import com.myapps.pruebaandroidtl.moviesfeature.data.local.MoviesDao
-import com.myapps.pruebaandroidtl.utils.constants.INITIAL_PAGE
+import com.myapps.pruebaandroidtl.utils.constants.ONE_INT
 import com.myapps.pruebaandroidtl.moviesfeature.domain.models.MovieModel
 import java.io.IOException
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import retrofit2.HttpException
 class MoviesRemoteMediator2 @Inject constructor(
     private val moviesDao: MoviesDao,
     private val moviesDataSource: MoviesDataSource,
-    private val initialKey: Int = INITIAL_PAGE
+    private val initialKey: Int = ONE_INT
 ) : RemoteMediator<Int, MovieModel>(){
 
     override suspend fun initialize(): InitializeAction {
