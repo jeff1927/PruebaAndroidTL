@@ -16,8 +16,6 @@ interface TheMovieDataBaseApi {
     suspend fun getPopularMovies(
         @Query("api_key")
         api_key: String = TMDB_API_KEY,
-        @Query("page")
-        page: Int = ONE_INT
     ) : Response<PopularMoviesDto>
 
     @GET(POPULAR_MOVIES_ENDPOINT)
