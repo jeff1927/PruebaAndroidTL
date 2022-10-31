@@ -24,9 +24,11 @@ class MoviesViewModel @Inject constructor(
         getMovies()
     }
 
-    fun getMovies() = viewModelScope.launch(Dispatchers.IO) {
-        getAllMoviesUseCase().collect {
-            _moviesList.postValue(it)
+    private fun getMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getAllMoviesUseCase().collect {
+                _moviesList.postValue(it)
+            }
         }
     }
 }
