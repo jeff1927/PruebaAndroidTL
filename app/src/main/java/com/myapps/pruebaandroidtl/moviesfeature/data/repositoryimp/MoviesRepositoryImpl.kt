@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 class MoviesRepositoryImpl @Inject constructor(
     private val moviesDataSource: MoviesDataSource,
     private val moviesDao: MoviesDao
-) : MoviesRepository{
+) : MoviesRepository {
 
     override suspend fun getMovies(): Flow<Resource<List<MovieModel>>> {
         return networkBoundResource(

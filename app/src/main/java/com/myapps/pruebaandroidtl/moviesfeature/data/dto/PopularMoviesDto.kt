@@ -17,8 +17,8 @@ data class PopularMoviesDto(
     @Expose
     @SerializedName("total_results")
     val total_results: Int
-){
-    fun toDomainModel()= PopularMoviesModel(
+) {
+    fun toDomainModel() = PopularMoviesModel(
         page,
         results.map { it.toDomainModel() },
         total_pages,
