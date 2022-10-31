@@ -21,7 +21,11 @@ class MovieDetailFragment : Fragment() {
     private var _binding: FragmentMovieDetailBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,7 +37,7 @@ class MovieDetailFragment : Fragment() {
 
     private fun setupView() {
         val movie = safeArgs.movie
-        with(binding){
+        with(binding) {
             Glide.with(this.root).load("https://image.tmdb.org/t/p/w500" + movie.poster_path)
                 .into(ivItemImage)
             tvTitle.text = movie.original_title

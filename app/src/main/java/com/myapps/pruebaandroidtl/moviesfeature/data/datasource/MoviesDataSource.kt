@@ -1,7 +1,6 @@
 package com.myapps.pruebaandroidtl.moviesfeature.data.datasource
 
 
-import com.myapps.pruebaandroidtl.moviesfeature.domain.models.MovieModel
 import com.myapps.pruebaandroidtl.moviesfeature.domain.models.PopularMoviesModel
 import com.myapps.pruebaandroidtl.utils.StateResult
 

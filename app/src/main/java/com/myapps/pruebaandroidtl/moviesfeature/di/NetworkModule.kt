@@ -6,7 +6,7 @@ import com.myapps.pruebaandroidtl.mapsfeature.data.datasource.RoutesDataSource
 import com.myapps.pruebaandroidtl.mapsfeature.data.datasource.RoutesDataSourceImp
 import com.myapps.pruebaandroidtl.mapsfeature.data.repositoryimp.RoutesRepositoryImpl
 import com.myapps.pruebaandroidtl.mapsfeature.domain.repository.RoutesRepository
-import com.myapps.pruebaandroidtl.moviesfeature.data.api.TheMovieDataBaseApi
+import com.myapps.pruebaandroidtl.moviesfeature.data.api.ApiService
 import com.myapps.pruebaandroidtl.moviesfeature.data.datasource.MoviesDataSource
 import com.myapps.pruebaandroidtl.moviesfeature.data.datasource.MoviesDataSourceImpl
 import com.myapps.pruebaandroidtl.moviesfeature.data.local.MoviesDao
@@ -79,14 +79,14 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMoviesApiService(retrofit: Retrofit): TheMovieDataBaseApi {
-        return retrofit.create(TheMovieDataBaseApi::class.java)
+    fun provideMoviesApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideMoviesDataSource(apiService: TheMovieDataBaseApi): MoviesDataSource {
-        return MoviesDataSourceImpl(apiService)
+    fun provideMoviesDataSource(apiServiceService: ApiService): MoviesDataSource {
+        return MoviesDataSourceImpl(apiServiceService)
     }
 
     @Singleton
@@ -97,8 +97,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRoutesDataSource(apiService: TheMovieDataBaseApi): RoutesDataSource {
-        return RoutesDataSourceImp(apiService)
+    fun provideRoutesDataSource(apiServiceService: ApiService): RoutesDataSource {
+        return RoutesDataSourceImp(apiServiceService)
     }
 
     @Singleton
