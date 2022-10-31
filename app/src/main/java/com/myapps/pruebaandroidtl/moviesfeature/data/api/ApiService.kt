@@ -15,11 +15,11 @@ interface ApiService {
     suspend fun getPopularMovies(
         @Query("api_key")
         api_key: String = TMDB_API_KEY,
-    ) : Response<PopularMoviesDto>
+    ): Response<PopularMoviesDto>
 
     @GET
     suspend fun getRoutes(
         @Url
         url: String
-    ) : Response<RouteDto>
+    ): Response<RouteDto>
 }

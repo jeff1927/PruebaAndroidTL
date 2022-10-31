@@ -148,7 +148,7 @@ class Maps1Fragment : Fragment() {
             myLocation?.let {
                 drawNewMarker(it)
                 val address = getAddress(it)
-                binding.tvTargetLocationAddress.text = getString(R.string.label_from, address)
+                binding.tvTargetLocationAddress.text = getString(R.string.label_to, address)
             }
         }
     }

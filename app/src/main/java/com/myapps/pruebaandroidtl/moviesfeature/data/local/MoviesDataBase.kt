@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.myapps.pruebaandroidtl.moviesfeature.domain.models.MovieModel
 
 @Database(entities = [MovieModel::class], version = 1)
-abstract class MoviesDataBase : RoomDatabase(){
+abstract class MoviesDataBase : RoomDatabase() {
 
     companion object {
         fun getInstance(context: Context): MoviesDataBase {
