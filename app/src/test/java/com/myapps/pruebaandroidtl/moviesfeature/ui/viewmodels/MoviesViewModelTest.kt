@@ -57,7 +57,7 @@ class MoviesViewModelTest{
         coEvery { getAllMoviesUseCase() } returns mockRepository.getMovies()
 
         // when
-        viewModel.getMovies()
+        getAllMoviesUseCase()
 
         // then
         coVerify(exactly = 2) { getAllMoviesUseCase()}
