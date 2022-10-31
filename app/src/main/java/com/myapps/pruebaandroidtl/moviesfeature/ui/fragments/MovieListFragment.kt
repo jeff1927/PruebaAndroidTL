@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.myapps.pruebaandroidtl.databinding.FragmentMovieListBinding
 import com.myapps.pruebaandroidtl.moviesfeature.ui.adapters.MoviesAdapter
 import com.myapps.pruebaandroidtl.moviesfeature.ui.viewmodels.MoviesViewModel
+import com.myapps.pruebaandroidtl.utils.Resource
 import com.myapps.pruebaandroidtl.utils.StateResult
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,32 +40,43 @@ class MovieListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.rvMovies.apply { 
+        binding.rvMovies.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = MoviesAdapter(setOnItemClicked = {
-                findNavController().navigate(MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(it))
+                findNavController().navigate(
+                    MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(
+                        it
+                    )
+                )
             })
         }
     }
+
     private fun setupObserver() {
         viewModel.moviesList.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is StateResult.Success -> {
+                is Resource.Success -> {
                     binding.rvMovies.adapter?.let {
-                        response.data?.let { pagingData ->
-                            (it as MoviesAdapter).submitData(lifecycle, pagingData)
+                        response.data?.let { moviesList ->
+                            (it as MoviesAdapter).submitList(moviesList)
                         }
                     }
                 }
-                is StateResult.Failed -> {
-                    response.code.let { message ->
+                is Resource.Error -> {
+                    response.error?.let { message ->
                         Toast.makeText(
                             requireContext(),
-                            "AN_ERROR_HAS_OCCURRED $message",
+                            message.localizedMessage,
                             Toast.LENGTH_LONG
                         ).show()
                     }
+                    binding.rvMovies.adapter?.let {
+                        response.data?.let { moviesList ->
+                            (it as MoviesAdapter).submitList(moviesList)
+                        }
+                    }
                 }
+                else -> {}
             }
         }
     }

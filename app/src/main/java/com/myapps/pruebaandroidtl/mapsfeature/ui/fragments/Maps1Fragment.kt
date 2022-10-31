@@ -3,13 +3,13 @@ package com.myapps.pruebaandroidtl.mapsfeature.ui.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.net.RouteInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,6 +27,10 @@ import com.myapps.pruebaandroidtl.databinding.FragmentMaps1Binding
 import com.myapps.pruebaandroidtl.mapsfeature.domain.models.RouteModel
 import com.myapps.pruebaandroidtl.mapsfeature.ui.viewmodels.MapsViewModel
 import com.myapps.pruebaandroidtl.utils.StateResult
+import com.myapps.pruebaandroidtl.utils.constants.CUSTOM_ZOOM
+import com.myapps.pruebaandroidtl.utils.constants.ONE_INT
+import com.myapps.pruebaandroidtl.utils.constants.ROUTE_LINE_WIDTH
+import com.myapps.pruebaandroidtl.utils.constants.ZERO_INT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,13 +42,11 @@ class Maps1Fragment : Fragment() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    private var start: LatLng? = null
-
-    private var end: LatLng? = null
-
-    private var poly: Polyline? = null
-
     private var mRoute: RouteModel? = null
+
+    private var polyLineOptions: PolylineOptions? = null
+
+    private var mPolyLine: Polyline? = null
 
     private val viewModel by viewModels<MapsViewModel>()
 
@@ -55,19 +57,14 @@ class Maps1Fragment : Fragment() {
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         map?.setOnMapClickListener { location ->
-            actualizePolyLine()
-            end = location
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14f),null)
-            drawNewMarker(location)
-            binding.btnSeeRouteInfo.isEnabled = true
+            viewModel.saveEndLocation(location)
+            map?.clear()
+            drawMyLocationMarker()
+            drawEndLocationMarker()
             createRoute()
+            drawPolyLine()
         }
         locationPermission()
-    }
-
-    private fun actualizePolyLine(){
-        poly?.remove()
-        poly?.let{poly = null}
     }
 
     private var _binding: FragmentMaps1Binding? = null
@@ -84,17 +81,16 @@ class Maps1Fragment : Fragment() {
         binding.mapView.getMapAsync(callback)
         geocoder = Geocoder(requireContext())
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
         setupObservers()
         setupListeners()
+        drawEndLocationMarker()
     }
 
     private fun setupListeners() {
         binding.btnSeeRouteInfo.setOnClickListener {
             mRoute?.let {
                 findNavController().navigate(Maps1FragmentDirections.actionMaps1FragmentToRouteInfoFragment(
-                    floatArrayOf(it.distance.toFloat(), it.duration.toFloat())
-                ))
+                    floatArrayOf(it.distance.toFloat(), it.duration.toFloat())))
             }
         }
     }
@@ -104,30 +100,79 @@ class Maps1Fragment : Fragment() {
             mRoute = route.data
             when(route){
                 is StateResult.Success -> {
-                    val polyLineOptions = PolylineOptions()
+                    polyLineOptions= PolylineOptions()
                     route.data?.coordinates?.forEach {
-                        polyLineOptions.add(LatLng(it[1], it[0]))
+                        polyLineOptions?.add(LatLng(it[ONE_INT], it[ZERO_INT]))
                     }
-                    poly = map?.addPolyline(polyLineOptions)
+                    polyLineOptions?.let {
+                        it
+                            .width(ROUTE_LINE_WIDTH)
+                            .color(ContextCompat.getColor(requireContext(),R.color.purple_700))
+                        viewModel.savePolyLineOptions(it)
+                    }
                 }
                 else -> {
-                    Toast.makeText(requireContext(),"no se ha encontrado la ruta", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),getString(R.string.route_not_found), Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun drawNewMarker(location: LatLng){
-        val address = geocoder.getFromLocation(location.latitude, location.longitude,  2)[0].getAddressLine(0)
-        binding.tvTargetLocationAddress.text = getString(R.string.label_to, address)
-        createMarker(location,address)
-        Toast.makeText(requireContext(), address, Toast.LENGTH_SHORT).show()
+    private fun drawPolyLine() {
+        viewModel.polylineOptions.observe(viewLifecycleOwner){
+            it?.let {poly ->
+                removeOldPolyLine()
+                mPolyLine = map?.addPolyline(poly)
+            }
+        }
     }
 
-    private fun createRoute(){
-        start?.let {
-            end?.let {
-                viewModel.getRoute(start as LatLng, end as LatLng)
+    private fun removeOldPolyLine() {
+        mPolyLine?.remove()
+        mPolyLine = null
+    }
+
+    private fun drawMyLocationMarker() {
+        viewModel.startLocation.observe(viewLifecycleOwner) { myLocation ->
+            myLocation?.let {
+                drawNewMarker(it)
+                val address = getAddress(it)
+                binding.tvMyLocationAddress.text = getString(R.string.label_from, address)
+            }
+        }
+    }
+
+    private fun drawEndLocationMarker() {
+        viewModel.endLocation.observe(viewLifecycleOwner){ myLocation ->
+            binding.btnSeeRouteInfo.isEnabled = true
+            myLocation?.let {
+                drawNewMarker(it)
+                val address = getAddress(it)
+                binding.tvTargetLocationAddress.text = getString(R.string.label_to, address)
+            }
+        }
+    }
+
+    private fun drawNewMarker(location: LatLng) {
+        val address = getAddress(location)
+        val marker = MarkerOptions().position(location).title(address)
+        map?.addMarker(marker)
+    }
+
+    private fun getAddress(location: LatLng?): String {
+        location?.let {
+            return geocoder.getFromLocation(it.latitude, it.longitude, ONE_INT)[ZERO_INT].getAddressLine(ZERO_INT)
+        } ?: return getString(R.string.wrong_location)
+    }
+
+    private fun createRoute() {
+        viewModel.startLocation.observe(viewLifecycleOwner) { itStart ->
+            itStart?.let { startLocation ->
+                viewModel.endLocation.observe(viewLifecycleOwner) { itEnd ->
+                    itEnd?.let { endLocation ->
+                        viewModel.getRoute(startLocation, endLocation)
+                    }
+                }
             }
         }
     }
@@ -139,17 +184,13 @@ class Maps1Fragment : Fragment() {
             map?.isMyLocationEnabled = false
             Toast.makeText(
                 requireContext(),
-                "Ve a ajustes y acepta los permisos",
+                getString(R.string.go_to_settings),
                 Toast.LENGTH_SHORT
             ).show()
         }
+        createRoute()
+        drawPolyLine()
     }
-
-    private fun createMarker(location: LatLng, address: String) {
-        val marker = MarkerOptions().position(location).title(address)
-        map?.addMarker(marker)
-    }
-
 
 
     private fun locationPermission() {
@@ -158,30 +199,27 @@ class Maps1Fragment : Fragment() {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener(requireActivity()) {
                 val location = LatLng(it.latitude,it.longitude)
                 setMyLocationOnMap(location)
-                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14f),2000,null)
             }
             return
-        }else{
+        }else {
             requestLocationPermission()
         }
-
     }
 
-    private fun setMyLocationOnMap(location: LatLng?){
+    private fun setMyLocationOnMap(location: LatLng?) {
         location?.let{
-            start = it
-            val address = geocoder.getFromLocation(location.latitude, location.longitude,1)[0].getAddressLine(0)
-            binding.tvMyLocationAddress.text = getString(R.string.label_from, address)
-            createMarker(location, address)
+            viewModel.saveStartPoint(it)
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(it, CUSTOM_ZOOM),null)
+            drawMyLocationMarker()
+            drawEndLocationMarker()
         }
     }
 
-    private fun requestLocationPermission(){
+    private fun requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
-            Toast.makeText(requireContext(),"Ve a ajustes y acepta los permisos",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),getString(R.string.go_to_settings),Toast.LENGTH_SHORT).show()
         }else{
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_LOCATION)
-
         }
     }
 

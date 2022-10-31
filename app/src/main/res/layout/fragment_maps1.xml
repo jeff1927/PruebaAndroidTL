@@ -16,21 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_my_location_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/my_address"
-            android:textSize="24sp"/>
-        <TextView
-            android:id="@+id/tv_target_location_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/target_location"
-            android:textSize="24sp"/>
-
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
@@ -42,12 +27,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:layout_margin="8dp"
+            android:elevation="32dp">
+
+            <TextView
+                android:id="@+id/tv_my_location_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/my_address"
+                android:textSize="24sp"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:layout_margin="8dp"
+            android:elevation="32dp">
+
+            <TextView
+                android:id="@+id/tv_target_location_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/target_location"
+                android:textSize="24sp"/>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_see_route_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/see_route_info"
-            android:enabled="false"/>
+            android:enabled="false"
+            app:cardCornerRadius="16dp"
+            android:layout_margin="8dp"
+            android:elevation="32dp"
+            />
 
     </LinearLayout>
 
