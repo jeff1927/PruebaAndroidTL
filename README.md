@@ -32,11 +32,36 @@ Modules for dependency injection are here
 - [Kotlin Flows](https://developer.android.com/kotlin/flow)
 - [Navigation](https://developer.android.com/guide/navigation)
 - [Room](https://developer.android.com/jetpack/androidx/releases/room)
-- [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 
 ## Instructions to build this project:
 
 In order to limit the access to the google API, this project would should to put the PUBLIC_API_KEY in the local properties file, just like the following video shows, 
 for easiest way to build the project, the API keys are exposed but also restricted and it will be delete after the evaluator check the project.
 
-- [How to Keep your Apy_Keys safe](https://www.youtube.com/watch?v=X8lYNW_Or2o)
+- [How to keep your Apy_Keys safe](https://www.youtube.com/watch?v=X8lYNW_Or2o)
+
+### CompileSDK : 32 ###
+
+### Android Studio Bumblebee | 2021.1.1 Patch 3
+Build #AI-211.7628.21.2111.8309675, built on March 16, 2022
+Runtime version: 11.0.11+9-b60-7590822 amd64
+VM: OpenJDK 64-Bit Server VM by Oracle Corporation
+Windows 10 10.0
+GC: G1 Young Generation, G1 Old Generation
+Memory: 1280M
+Cores: 4
+Registry: external.system.auto.import.disabled=true, ide.balloon.shadow.size=0
+Non-Bundled Plugins: cn.yiiguxing.plugin.md.palette (1.4), wu.seal.tool.jsontokotlin (3.7.2), org.jetbrains.kotlin (211-1.6.20-release-275-AS7442.40), org.intellij.plugins.markdown (211.7142.37) 
+
+# Screen Shots of User Interface
+
+## Home View:
+
+
+
+
+
+
+
+
+
