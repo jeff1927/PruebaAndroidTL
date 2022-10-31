@@ -55,7 +55,39 @@ Non-Bundled Plugins: cn.yiiguxing.plugin.md.palette (1.4), wu.seal.tool.jsontoko
 
 # Screen Shots of User Interface
 
-## Home View:
+### Home View:
+
+![image](https://user-images.githubusercontent.com/97921301/198935487-ce63b00b-8493-44dd-97a5-f207794115c4.png)
+
+### Permission request
+
+![image](https://user-images.githubusercontent.com/97921301/198935854-75a2e4ff-976e-49ec-87b7-8f6190419ba5.png)
+
+### Maps View
+
+![image](https://user-images.githubusercontent.com/97921301/198936000-f67052dd-2473-4fed-bfae-17714fc67f59.png)
+
+### Route View
+
+![image](https://user-images.githubusercontent.com/97921301/198936206-cb977be1-e46c-42b6-8c80-ef3f32a785d6.png)
+
+### Show addres in the marker and the textview
+
+![image](https://user-images.githubusercontent.com/97921301/198936360-beb21748-4bfc-4d54-b428-5197c2c1e078.png)
+
+### Distance and Time Calculation
+
+![image](https://user-images.githubusercontent.com/97921301/198936504-9294f17e-8df1-4f3a-a396-83901e682dc1.png)
+
+### Movie list
+
+![image](https://user-images.githubusercontent.com/97921301/198936692-9971e04d-1889-4718-9fd2-851bf4cac39e.png)
+
+###  Movie Details
+
+![image](https://user-images.githubusercontent.com/97921301/198936770-6a150c60-e49f-466f-8253-24c2f4b59426.png)
+
+
 
 
 
